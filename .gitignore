@@ -1,0 +1,23 @@
+# Entregas das POCs — produto de saída, não distribuído com a skill.
+# Cada execução cria <OUTPUT_ROOT>\<YYYY-MM-DD>-POC-XX\ aqui por padrão.
+/pocs/
+
+# Artefatos de IaC / estado (nunca versionar estado nem segredos gerados em runtime)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.plan
+*.tfplan
+
+# Ruído de validação de diagramas Mermaid
+*.svg
+.mermaid-validation/
+
+# Locais
+.env
+*.bak
+*.tmp
+__pycache__/
+.DS_Store
+Thumbs.db

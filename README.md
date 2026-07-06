@@ -1,0 +1,149 @@
+# POC Swarm 🛠️🐝
+
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0006--0765--4201-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0006-0765-4201)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![GitHub Copilot CLI](https://img.shields.io/badge/GitHub%20Copilot-CLI%20Skill-000000?logo=githubcopilot&logoColor=white)](https://github.com/github/copilot-cli)
+
+Skill do **Copilot CLI** que monta um **enxame de agentes declarativos** para
+**projetar, construir, validar, revisar e provisionar uma Prova de Conceito (POC)
+no Azure** — no tenant e subscription que você indicar — e, ao final, **gerar a
+documentação** chamando a skill [`document-swarm`](https://github.com/EdneiMonteiro/document-swarm).
+
+É irmã da `document-swarm` e reutiliza o mesmo motor: agentes `.md` autocontidos,
+**modelo explícito por agente**, human-in-the-loop no início, **≥ 5 fontes oficiais
+verificadas (HTTP 200)**, régua **D- … A+ com portão ≥ A**, **rubber duck** transversal
+e rastreabilidade total em `reports/`. O que muda é o domínio: **engenharia de POC em
+Azure**, com **validação técnica real** e **deploy** dos artefatos.
+
+> Skill (fonte da verdade): `SKILL.md` (na raiz deste repo)
+> Saída das POCs: por padrão `<clone>\pocs\<YYYY-MM-DD>-POC-<XX>\`
+> (configurável — ver [Instalação](#instalação) e [Local de saída](#local-de-saída))
+
+> ⚠️ **Esta skill provisiona recursos reais no Azure** (por padrão, deploy automático) —
+> use **assinaturas de sandbox/laboratório**, nunca produção, e rode o **teardown** ao
+> final. Veja [DISCLAIMER.md](./DISCLAIMER.md) e [SUPPORT.md](./SUPPORT.md).
+
+---
+
+## Instalação
+
+A skill é distribuída como este repositório. Para instalar em qualquer máquina:
+
+```bash
+# Linux/macOS
+git clone <url-deste-repo> ~/Projects/poc-swarm
+cd ~/Projects/poc-swarm
+./scripts/install.sh
+# opcional: tenta instalar também o toolchain de validação/deploy (az/bicep/terraform/tflint/checkov):
+#   ./scripts/install.sh --with-tools
+```
+
+```powershell
+# Windows (PowerShell)
+git clone <url-deste-repo> $HOME\Projects\poc-swarm
+cd $HOME\Projects\poc-swarm
+pwsh scripts\install.ps1
+# opcional: tenta instalar também o toolchain de validação/deploy:
+#   pwsh scripts\install.ps1 -WithTools
+```
+
+O instalador cria o symlink `~/.copilot/skills/poc-swarm` → raiz deste repo, para o
+Copilot CLI reconhecer a skill (confirme com `/skills` após reiniciar).
+
+> **Windows:** o symlink exige **Developer Mode** habilitado (Settings → Privacy &
+> security → For developers) ou terminal elevado; sem isso, o instalador cai
+> automaticamente para *junction*.
+
+> **Recomendado:** instale também a `document-swarm` — a POC Swarm a invoca para produzir
+> a documentação final (Fase 5). Sem ela, a skill gera apenas um `docs/` mínimo e avisa.
+
+### Toolchain de validação & deploy
+
+O motor de agentes roda sem dependências extras, mas a **validação** e o **deploy**
+precisam de:
+
+- **`az` CLI** + extensão **Bicep** (`az bicep install`), com **login ativo** (`az login`).
+- **Terraform** (se usar Terraform como IaC) + provider `azurerm`/`azapi`.
+- **Linters/segurança:** `tflint`, `checkov`, **PSRule for Azure** (conforme o IaC).
+
+Ao final da instalação, o script **checa** esse toolchain e lista o que falta. Use
+`--with-tools` (bash) ou `-WithTools` (PowerShell) para tentar instalar automaticamente
+(winget no Windows; apt · dnf · brew no Unix; pip para checkov).
+
+### Local de saída
+
+O `<OUTPUT_ROOT>` é resolvido em runtime:
+
+1. **Destino explícito** que você indicar no pedido.
+2. **Variável de ambiente `POCSWARM_ROOT`**, se definida.
+3. **Default:** `<clone>\pocs`, onde `<clone>` é onde este repo foi clonado (resolvido
+   pelo alvo real do symlink da skill).
+
+As entregas em `pocs/` **não** são versionadas (estão no `.gitignore`) — são o produto
+local de cada execução, não parte da distribuição da skill.
+
+---
+
+## Como funciona
+
+Quando você pede "monte uma POC de X no Azure", a skill não escreve nem deploya às cegas.
+Ela decompõe o trabalho e roda **dois swarms encadeados** dentro de uma **pasta única**
+`<YYYY-MM-DD>-POC-<XX>`:
+
+### 1) Swarm de Construção
+
+1. **Pergunta** o essencial (objetivo, **tenant/subscription/região**, restrições,
+   preferências de IaC/rede/auth, teardown, nº de ciclos).
+2. Um **Analista** enquadra a POC e escreve o **ADR** (`architecture-decision.md`):
+   recursos, opções de implementação, **rede pública vs privada**, **IaC** (Bicep /
+   Terraform / az CLI), **chaves vs Managed Identity**, região, custo, riscos — tudo
+   verificado contra a **documentação oficial** e o **estado real** do Azure.
+3. O Analista decide **quantos agentes e quais perfis** o enxame precisa (`team-plan.md`)
+   e a skill **materializa** builders, revisores técnicos, coordenador e rubber duck.
+4. Por ciclo: **builders** desenvolvem os artefatos → **validação real**
+   (`bicep build`/`terraform validate`+`plan`, `tflint`/`checkov`/`PSRule`, `what-if`) →
+   **peer review técnico** (nota D-…A+ por tópico) → **rubber duck** → **portão ≥ A**.
+5. Fechado o portão: **preflight read-only** (confirma tenant/subscription ativos) →
+   **deploy** no **RG dedicado** com **tags** → **smoke test** → **teardown** pronto.
+
+### 2) Swarm de Documentação
+
+6. A skill **invoca a `document-swarm`** com um **brief pré-preenchido** (arquitetura,
+   decisões, recursos provisionados, diagramas) e **destino explícito `docs/`**, gerando
+   a documentação final da POC — que passa pelo **portão ≥ A** do próprio document-swarm.
+
+A premissa: **qualidade vem de especialização + validação técnica real + revisão
+iterativa com régua dura + evidência verificável + deploy comprovado por smoke test.**
+
+---
+
+## Quando dispara (triggers)
+
+Use frases como:
+
+- "monte uma POC de `<solução>` no Azure"
+- "crie/implemente uma prova de conceito de `<X>` na subscription `<Y>`"
+- "quero um POC de `<serviço/arquitetura>` com IaC no meu tenant"
+- "prove o conceito de `<X>` no Azure e documente"
+
+**Não dispara** para pedidos que são só documento/apresentação (use `document-swarm`) nem
+para pedidos triviais. Também há **modo evolução** para expandir uma POC já entregue.
+
+---
+
+## Segurança
+
+- **Preflight read-only** confirma que o **tenant/subscription ativos** batem com o pedido
+  **antes** de qualquer `apply`/`create` — se não baterem, a skill **para e alerta**.
+- **RG dedicado** por POC (`rg-poc-<slug>-<env>`), **tags** padronizadas e **teardown**
+  sempre gerado.
+- Prefere **Managed Identity**; segredos só via **Key Vault**, nunca versionados.
+- Verifica o **estado real** do Azure — nunca presume defaults de configuração.
+
+---
+
+## Licença e avisos
+
+Distribuído sob [CC BY 4.0](./LICENSE). Uso por sua conta e risco — veja
+[DISCLAIMER.md](./DISCLAIMER.md) (atenção especial ao provisionamento de recursos reais) e
+[SUPPORT.md](./SUPPORT.md). Se usar este material, por favor cite (ver `CITATION.cff`).
