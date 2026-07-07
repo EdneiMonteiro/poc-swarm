@@ -3,6 +3,7 @@
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--0765--4201-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0006-0765-4201)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![GitHub Copilot CLI](https://img.shields.io/badge/GitHub%20Copilot-CLI%20Skill-000000?logo=githubcopilot&logoColor=white)](https://github.com/github/copilot-cli)
+[![Last commit](https://img.shields.io/github/last-commit/EdneiMonteiro/poc-swarm)](https://github.com/EdneiMonteiro/poc-swarm/commits)
 
 Skill do **Copilot CLI** que monta um **enxame de agentes declarativos** para
 **projetar, construir, validar, revisar e provisionar uma Prova de Conceito (POC)
