@@ -189,6 +189,11 @@ Mesmo com **deploy automático** (modo padrão), estas regras são **inegociáve
   avise o comando exato.
 - **Segredos**: prefira **Managed Identity**; se chaves forem inevitáveis, use **Key
   Vault** e **nunca** grave segredos em arquivos versionados nem no chat.
+- **Sem dados sensíveis no repositório**: **nunca** escreva IDs reais de
+  **tenant/subscription**, nomes de **cliente** ou de **projeto interno** em arquivos que
+  possam ser versionados (README, SKILL.md, exemplos, templates). Use **placeholders**
+  (ex.: `<tenant sandbox>`, `<sub sandbox>`, `<slug>`, `<env>`). O contexto real vive
+  apenas no `brief.md`, dentro de `pocs/` — que está no `.gitignore` e não é distribuído.
 
 ## Fluxo de execução
 

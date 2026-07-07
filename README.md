@@ -139,6 +139,9 @@ para pedidos triviais. Também há **modo evolução** para expandir uma POC já
 - **RG dedicado** por POC (`rg-poc-<slug>-<env>`), **tags** padronizadas e **teardown**
   sempre gerado.
 - Prefere **Managed Identity**; segredos só via **Key Vault**, nunca versionados.
+- **Sem dados sensíveis no repositório:** IDs reais de tenant/subscription e nomes de
+  cliente/projeto interno **nunca** entram em arquivos versionados — use placeholders. O
+  contexto real fica só no `brief.md` local, dentro de `pocs/` (no `.gitignore`).
 - Verifica o **estado real** do Azure — nunca presume defaults de configuração.
 
 ---
