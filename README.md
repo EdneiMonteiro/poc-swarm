@@ -151,3 +151,8 @@ para pedidos triviais. Também há **modo evolução** para expandir uma POC já
 Distribuído sob [CC BY 4.0](./LICENSE). Uso por sua conta e risco — veja
 [DISCLAIMER.md](./DISCLAIMER.md) (atenção especial ao provisionamento de recursos reais) e
 [SUPPORT.md](./SUPPORT.md). Se usar este material, por favor cite (ver `CITATION.cff`).
+
+## 🤝 Contributing
+
+Issue and pull request creation is restricted to collaborators. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for details.
