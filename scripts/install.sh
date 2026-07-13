@@ -44,13 +44,6 @@ echo "Reinicie o Copilot CLI e confirme com /skills."
 echo "Saída das POCs (padrão): $REPO_ROOT/pocs"
 echo "Para mudar a saída, defina POCSWARM_ROOT ou indique o destino no pedido."
 
-# Recomenda a document-swarm (usada na Fase 5 para a documentação final).
-if [ -e "$SKILLS_DIR/document-swarm" ]; then
-  echo "   ✅ document-swarm detectada (usada na Fase 5 p/ documentação)."
-else
-  echo "   ⚠️  document-swarm NÃO detectada — instale-a para a documentação final da POC."
-fi
-
 # ── Toolchain de validação/deploy: opcional ────────────────────────────────────
 # O motor de agentes funciona sem nada disto. Validação e deploy precisam de
 # az CLI + Bicep, Terraform (se usado), e linters (tflint/checkov/PSRule).

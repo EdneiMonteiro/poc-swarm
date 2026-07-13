@@ -1,6 +1,6 @@
 ---
 name: poc-swarm
-description: "Use when the user asks to design, build, validate and deploy a Proof of Concept (POC) on Azure, in a specified tenant and subscription. An Analyst agent frames the POC (platform resources, implementation options, public vs private networking, IaC choice — Bicep/Terraform/az CLI —, keys vs managed identity, region and other context-driven options) and decides how many agents and which profiles the swarm needs. The skill then materializes declarative agents (like document-swarm), running TWO chained swarms inside a single POC folder: a Build swarm (builders + real validation via bicep build/terraform validate+plan, linters/checkov/PSRule, what-if; technical peer review; rubber duck; gate >= A; automatic deploy; smoke test) and a Documentation swarm that invokes the installed document-swarm skill with a pre-filled brief. Outputs go under an explicit target, POCSWARM_ROOT, or the clone's pocs folder. Do not use for pure documents/decks (use document-swarm) or trivial requests."
+description: "Use when the user asks to design, build, validate and deploy a Proof of Concept (POC) on Azure, in a specified tenant and subscription. An Analyst agent frames the POC (platform resources, implementation options, public vs private networking, IaC choice — Bicep/Terraform/az CLI —, keys vs managed identity, region and other context-driven options) and decides how many agents and which profiles the swarm needs. The skill then materializes declarative agents, running TWO chained swarms inside a single POC folder: a Build swarm (builders + real validation via bicep build/terraform validate+plan, linters/checkov/PSRule, what-if; technical peer review; rubber duck; gate >= A; automatic deploy; smoke test) and a native Documentation swarm (doc writers + doc reviewers + rubber duck; gate >= A) that produces docs/ from the POC artifacts. Outputs go under an explicit target, POCSWARM_ROOT, or the clone's pocs folder. Do not use for pure documents/decks or trivial requests."
 ---
 
 # POC Swarm Skill
@@ -9,10 +9,10 @@ description: "Use when the user asks to design, build, validate and deploy a Pro
 > (analista + builders + revisores técnicos + coordenador + rubber duck) para
 > **projetar, construir, validar, revisar e provisionar** uma Prova de Conceito no
 > Azure em **ciclos de melhoria iterativa** até que **todos os tópicos avaliados
-> atinjam nota mínima A**, e ao final **gerar a documentação** invocando a skill
-> `document-swarm`.
+> atinjam nota mínima A**, e ao final **gerar a documentação** com um **swarm de
+> documentação nativo** (dentro da própria skill).
 
-Esta skill é irmã da `document-swarm` e **reutiliza o mesmo motor**: agentes `.md`
+Esta skill **reutiliza o mesmo motor** de swarm para documentação: agentes `.md`
 autocontidos, **modelo explícito por agente**, human-in-the-loop no início,
 **≥ 5 fontes oficiais verificadas (HTTP 200)**, régua **D- … A+ com portão ≥ A**,
 **rubber duck** transversal e tudo rastreável em `reports/`. O que muda é o domínio:
@@ -29,8 +29,8 @@ Use esta skill quando o usuário pedir algo como:
 - "prove o conceito de `<X>` no Azure e documente"
 - "swarm de POC para `<cenário>`"
 
-**Não dispare** para pedidos que sejam apenas de **documento ou apresentação** (use a
-`document-swarm`), nem para pedidos triviais. A `poc-swarm` é para **construir algo que
+**Não dispare** para pedidos que sejam apenas de **documento ou apresentação** (sem
+construir nada no Azure), nem para pedidos triviais. A `poc-swarm` é para **construir algo que
 roda no Azure** — com IaC/código, validação e (por padrão) deploy real — e então
 documentá-lo.
 
@@ -70,7 +70,8 @@ rede/segurança da POC", "troque o IaC de `<A>` para `<B>`", etc. — veja a **F
     confirma o contexto (tenant/subscription ativos) é inegociável; **RG dedicado**,
     **tags** e **teardown** sempre. Nunca deploye no lugar errado.
 11. **Documentação ao final** — a entrega termina com documentação de qualidade,
-    produzida **invocando a skill `document-swarm`** com um brief pré-preenchido.
+    produzida por um **swarm de documentação nativo** (doc writers + doc reviewers +
+    rubber duck; portão ≥ A) a partir dos artefatos da POC.
 12. **Tudo rastreável** — cada ciclo/fase produz relatórios versionados em `reports/`.
 
 ## Estrutura de saída
@@ -109,6 +110,9 @@ swarms lado a lado** (`build/` e `docs/`):
 │  └─ reviewers\
 │     ├─ reviewer-01-<slug>.md  # ex.: segurança/identidade, rede, qualidade IaC, custo, deployability, WAF
 │     └─ reviewer-02-<slug>.md
+│  └─ docs\
+│     ├─ doc-writer-01-<slug>.md  # autores da documentação (ex.: visão geral, deploy, segurança/rede)
+│     └─ doc-reviewer-01-<slug>.md # revisores de documentação (clareza, correção técnica, completude)
 ├─ build\
 │  ├─ iac\                      # bicep/terraform/az cli
 │  ├─ scripts\                  # deploy.* + teardown.*
@@ -121,10 +125,11 @@ swarms lado a lado** (`build/` e `docs/`):
 │  ├─ cycle-0N-review.md        # matriz tópico × revisor + nota mínima por tópico
 │  ├─ cycle-0N-rubberduck.md    # achados do rubber duck
 │  ├─ deploy.md                 # log do deploy + IDs dos recursos + resultado do smoke test
+│  ├─ doc-cycle-0N-review.md    # matriz tópico × doc-reviewer da documentação + nota mínima
 │  └─ final-report.md           # resumo do swarm: ciclos, notas finais, recursos, custo, fontes
 ├─ sources\
 │  └─ sources-index.md          # consolidado de todas as fontes verificadas
-├─ docs\                        # saída do document-swarm (documentação final da POC)
+├─ docs\                        # documentação nativa da POC (doc writers + doc reviewers)
 └─ output\
    └─ resource-manifest.md      # recursos provisionados (nomes, IDs, endpoints, RG, região)
 ```
@@ -229,7 +234,7 @@ insista ou opere em modo "só gera artefatos" (sem deploy) e avise.
    - **Custo & sizing** (SKUs adequados, estimativa, sem desperdício)
    - **Observabilidade & operação** (tags, logs/métricas mínimas, diagnóstico)
    - **Deployability & validação** (validate/lint/what-if limpos, deploy reprodutível)
-   - **Documentação** (avaliada no swarm de docs, via `document-swarm`)
+   - **Documentação** (avaliada no swarm de documentação nativo)
 
 ### Fase 2 — Análise & composição do enxame (Analista)
 
@@ -305,18 +310,24 @@ Você, executando a skill, **é o coordenador**. Para cada ciclo `N` (começando
    estimado). Garanta que `build/scripts/teardown.*` está pronto; se o usuário pediu
    teardown ao final, execute-o agora e registre.
 
-### Fase 5 — Documentação (invoca `document-swarm`)
+### Fase 5 — Documentação (swarm de documentação nativo)
 
-A documentação final da POC é produzida **pela skill `document-swarm`**, não à mão. Veja a
-seção **Ponte com `document-swarm`**. Em resumo:
+A documentação final da POC é produzida por um **swarm de documentação nativo** — os
+mesmos princípios do swarm de construção (agentes declarativos, modelo por agente, ≥ 5
+fontes verificadas, régua D-…A+ com **portão ≥ A**, rubber duck), aplicados à redação.
+Veja a seção **Swarm de documentação (detalhe)**. Em resumo:
 
-1. Verifique que a skill `document-swarm` está **instalada** (`~/.copilot/skills/document-swarm`).
-2. Monte um **brief pré-preenchido** a partir de `architecture-decision.md`,
-   `resource-manifest.md`, `deploy.md` e das fontes — com objetivo, público, tópicos e
-   os diagramas de arquitetura desejados.
-3. **Invoque a `document-swarm`** passando **destino explícito = `<poc>\docs\`** (ela
-   honra destino explícito como prioridade #1), para que a doc fique dentro da pasta da
-   POC. A documentação passa pelo **portão ≥ A** do próprio document-swarm.
+1. **Materialize os agentes de documentação** em `agents/docs/`: **doc writers**
+   (Template de Doc Writer) e **doc reviewers** (Template de Doc Reviewer), escolhendo o
+   modelo de cada um e registrando em `reports/agent-models.md`. O nº e os perfis saem do
+   escopo da POC (ex.: writer de visão geral/arquitetura, writer de deploy/operação,
+   writer de segurança & rede).
+2. **Despache os doc writers** para escrever a documentação em `docs/` a partir dos
+   insumos da POC (`architecture-decision.md`, `resource-manifest.md`, `deploy.md`,
+   `sources-index.md`), incluindo os **diagramas** (Mermaid de arquitetura/fluxo).
+3. **Loop de documentação:** doc reviewers avaliam cada tópico (nota D-…A+), o rubber
+   duck audita, e o ciclo repete até **todos** os tópicos da documentação ficarem **≥ A**.
+   Consolide `reports/doc-cycle-0N-review.md`. A doc final vive em `<poc>\docs\`.
 
 ### Fase 6 — Entrega
 
@@ -330,7 +341,7 @@ seção **Ponte com `document-swarm`**. Em resumo:
 
 Use quando o pedido for **evoluir uma POC já entregue** (novo recurso, trocar IaC,
 endurecer rede/segurança, adicionar camada). Princípio: **estender sem regredir** e
-manter a POC inteira coerente. Segue a lógica da Fase E do `document-swarm`:
+manter a POC inteira coerente. Princípio de evolução incremental:
 
 1. **Localizar e diagnosticar.** Leia `brief.md`, `architecture-decision.md`,
    `resource-manifest.md`, o último `cycle-*-review.md`/`final-report.md` e liste os
@@ -346,7 +357,7 @@ manter a POC inteira coerente. Segue a lógica da Fase E do `document-swarm`:
    para incorporar a mudança de forma coerente (mesma terminologia, mesmo ADR
    atualizado), sem regredir o que já estava ≥ A.
 5. **Revalidar, re-deployar (what-if → apply), re-smoke-test** e **re-documentar**
-   (nova invocação do `document-swarm` sobre `docs/`). Portão **≥ A para todos os
+   (novo ciclo do **swarm de documentação nativo** sobre `docs/`). Portão **≥ A para todos os
    tópicos, novos e antigos**. Numere os relatórios continuando a sequência
    (`cycle-0N-*`) e/ou prefixe com `evo-<XX>`.
 
@@ -365,33 +376,128 @@ manter a POC inteira coerente. Segue a lógica da Fase E do `document-swarm`:
 - Revisores **conferem** as fontes: contagem, funcionamento e se sustentam de fato as
   decisões arquiteturais e o código.
 
-## Ponte com `document-swarm` (invocação da doc final)
+## Swarm de documentação (detalhe)
 
-A Fase 5 delega a documentação à skill **`document-swarm`**. Padrão de invocação:
+A Fase 5 produz a documentação com um **swarm nativo**, reutilizando o motor da skill.
+Padrão de execução:
 
-1. **Checagem de disponibilidade.** Confirme o alvo real do symlink:
-   `(Get-Item -Force "$env:USERPROFILE\.copilot\skills\document-swarm").Target`
-   (Linux/macOS: `readlink -f "$HOME/.copilot/skills/document-swarm"`). Se a skill **não**
-   estiver instalada, avise o usuário e ofereça: (a) instalar o document-swarm, ou (b)
-   gerar um `docs/brief.md` para ele rodar manualmente.
-2. **Brief pré-preenchido.** Escreva `docs/brief-seed.md` com o que o document-swarm
-   pediria na Fase 0, já respondido a partir dos artefatos da POC: objetivo do documento
-   (ex.: "guia técnico reproduzível da POC"), público, formato, tópicos de importância
-   (visão geral, arquitetura, decisões/ADR, passo-a-passo de deploy, segurança, rede,
-   custo, teardown, referências), idioma (PT-BR), e os **diagramas** desejados
-   (Mermaid de arquitetura/fluxo).
-3. **Destino explícito.** Invoque o document-swarm instruindo o **`<OUTPUT_ROOT>` =
-   `<poc>\docs`** (destino explícito tem prioridade #1 na resolução dele), para que a
-   documentação fique **dentro da pasta da POC**. Passe também os caminhos dos insumos
-   (`architecture-decision.md`, `resource-manifest.md`, `deploy.md`, `sources-index.md`)
-   como material de referência para os autores do document-swarm.
-4. **Resultado.** A doc final vive em `<poc>\docs\...` e passa pelo portão ≥ A do
-   document-swarm. Referencie o caminho no `final-report.md`.
+1. **Composição.** A partir do escopo da POC, decida quantos **doc writers** e **doc
+   reviewers** e quais perfis (ex.: writer de visão geral/arquitetura, writer de
+   deploy/operação/teardown, writer de segurança & rede; reviewers de clareza/didática,
+   de correção técnica e de completude). Materialize-os em `agents/docs/` pelos templates
+   abaixo, escolhendo o modelo de cada um e registrando em `reports/agent-models.md`.
+2. **Insumos.** Os doc writers escrevem em `docs/` a partir de
+   `architecture-decision.md`, `resource-manifest.md`, `deploy.md`, `sources-index.md` e
+   dos artefatos de `build/`. Estrutura sugerida de `docs/`: `README.md` (visão geral +
+   índice), `architecture.md` (com diagramas Mermaid), `deploy.md` (passo-a-passo
+   reproduzível), `security-network.md`, `cost.md`, `teardown.md` e `references.md`.
+3. **Loop com portão.** Por ciclo: doc writers escrevem/atualizam → doc reviewers dão
+   nota **D-…A+** por tópico com sugestão acionável → rubber duck audita → **portão ≥ A**.
+   Repita (passando aos writers só os tópicos < A + achados) até todos ficarem ≥ A.
+   Consolide `reports/doc-cycle-0N-review.md`.
+4. **Resultado.** A doc final vive em `<poc>\docs\...` e passa pelo **portão ≥ A** desta
+   skill. Referencie o caminho no `final-report.md`.
 
-> A `poc-swarm` **não reimplementa** o motor de documentação — ela reutiliza o
-> document-swarm. Se um dia o document-swarm não estiver disponível e o usuário aceitar,
-> gere ao menos um `docs/README.md` mínimo a partir do ADR + manifest, deixando claro que
-> não passou pelo portão de qualidade do document-swarm.
+> A documentação é parte da mesma entrega: **≥ 5 fontes verificadas por doc writer**,
+> correção técnica conferida contra a doc oficial, e nada de afirmar recurso/propriedade/
+> API que não exista de verdade.
+
+### Template de Doc Writer (`agents\docs\doc-writer-XX-<slug>.md`)
+
+```markdown
+---
+name: doc-writer-<XX>-<slug>
+kind: doc-writer
+role: <Área da doc, ex.: Visão geral & arquitetura / Deploy & operação / Segurança & rede>
+model: <modelo forte em redação técnica>
+reasoning_effort: <se suportado; ex.: high>
+context_tier: <default|long_context>
+model_rationale: "<por que este modelo é o melhor para esta parte da documentação>"
+poc: <poc_id>
+sources_min: 5
+---
+
+# Doc Writer: <Área da doc>
+
+## Persona
+Você é um(a) **technical writer** sênior em Azure. Escreve documentação **clara, correta e
+reproduzível**, fiel aos artefatos e às decisões da POC — não inventa recurso, propriedade
+nem passo que não exista.
+
+## Missão
+Escrever/atualizar a parte da documentação sob sua responsabilidade (em `docs\`) a partir
+dos artefatos reais da POC, no padrão de qualidade dos tópicos de importância do `brief`.
+
+## Como trabalhar
+1. Leia `brief.md`, `analysis\architecture-decision.md`, `output\resource-manifest.md`,
+   `reports\deploy.md` e os artefatos de `build\`. Documente o que **realmente** foi
+   construído/provisionado — não o ideal teórico.
+2. Confira nomes/versões de recurso/propriedade/API contra a doc oficial. Pesquise
+   **≥ 5 fontes oficiais verificadas** (Learn, WAF/CAF, docs Bicep/Terraform). **Abra cada
+   URL (HTTP 200)** antes de citar.
+3. Escreva a sua parte de `docs\` com estrutura clara, exemplos de comando corretos e,
+   quando couber, **diagramas Mermaid** (arquitetura/fluxo). Mantenha terminologia
+   consistente com o ADR e com os outros writers.
+4. Se houver **sugestões de doc reviewers**/achados do **rubber duck** (ciclos ≥ 2), trate
+   cada um explicitamente e eleve a qualidade. Liste suas fontes e atualize
+   `sources\sources-index.md`.
+
+## Formato das fontes (obrigatório, ≥ 5)
+| # | Título | Tipo | URL | Verificado |
+|---|--------|------|-----|------------|
+| 1 | ...    | oficial/WAF/bicep/terraform/github/norma | https://... | HTTP 200 em <data> |
+
+## Padrão de qualidade
+- Fiel aos artefatos reais; passos reproduzíveis de fato; comandos que funcionam.
+- Clareza e didática sem perder correção técnica; sustentada por doc oficial.
+- Coerente com os outros writers e com o ADR (sem contradição/duplicação).
+```
+
+### Template de Doc Reviewer (`agents\docs\doc-reviewer-XX-<slug>.md`)
+
+```markdown
+---
+name: doc-reviewer-<XX>-<slug>
+kind: doc-reviewer
+role: <Dimensão, ex.: Clareza & didática / Correção técnica / Completude & reprodutibilidade>
+model: <modelo crítico, família diferente dos doc writers>
+reasoning_effort: <se suportado; ex.: high>
+context_tier: <default|long_context>
+model_rationale: "<por que este modelo é o melhor para este doc reviewer>"
+poc: <poc_id>
+sources_min: 5
+scale: "D- D D+ C- C C+ B- B B+ A- A A+"
+gate: "A"
+---
+
+# Doc Reviewer: <Dimensão>
+
+## Persona
+Revisor(a) exigente de documentação técnica focado(a) em **<dimensão>**. Alto sinal, zero
+ruído. **Assuma que há problemas** (passo faltando, comando errado, afirmação sem fonte).
+
+## Missão
+Avaliar a documentação de `docs\` sob a ótica de **<dimensão>**, conferindo-a contra os
+artefatos reais (`architecture-decision.md`, `resource-manifest.md`, `deploy.md`,
+`build\`), dando para **cada tópico de importância** do `brief.md` uma nota `D- … A+` com
+justificativa e **sugestão de melhoria acionável**.
+
+## Como avaliar
+1. Leia `brief.md`, os artefatos da POC e a doc em `docs\`.
+2. Confira se cada passo/comando **realmente funciona** e bate com o que foi construído;
+   se cada afirmação técnica tem fonte oficial verificada (URL HTTP 200).
+3. Seja calibrado: **A/A+** = doc pronta para publicar nesta dimensão; **B** = boa com
+   lacunas; **C** = retrabalho sério; **D** = inadequada. **A- não aprova** — diga
+   exatamente o que falta para virar A.
+
+## Saída (obrigatória)
+| Tópico | Nota | Justificativa | Sugestão de melhoria (acionável) |
+|--------|------|---------------|----------------------------------|
+| <t>    | B+   | ...           | "Adicione o passo de X / corrija o comando Y / cite a fonte de Z ..." |
+
+Encerre com: nota mínima geral, tópicos que **bloqueiam** o portão (< A) e suas próprias
+fontes (tabela ≥ 5, verificadas).
+```
 
 ## Pré-requisitos de ferramenta (toolchain)
 
@@ -614,7 +720,7 @@ max_cycles: <n, padrão 5>
 ## Missão
 Orquestrar analista, builders, revisores e rubber duck para entregar a POC do `brief.md`
 com **todos os tópicos ≥ A**, **validação limpa** e **deploy + smoke test** bem-sucedidos,
-no menor nº de ciclos — e então acionar a documentação via `document-swarm`.
+no menor nº de ciclos — e então acionar o **swarm de documentação nativo**.
 
 ## Loop (por ciclo N)
 1. **Builders:** despache cada um (subagente `general-purpose`) com os parâmetros de
@@ -633,8 +739,8 @@ no menor nº de ciclos — e então acionar a documentação via `document-swarm
 ## Deploy & docs
 - **Fase 4:** preflight read-only (tenant/sub batem?), deploy no RG dedicado + tags,
   smoke test, `deploy.md` + `resource-manifest.md`, teardown pronto.
-- **Fase 5:** invoque a skill `document-swarm` com destino explícito `<poc>\docs` e o
-  brief pré-preenchido.
+- **Fase 5:** materialize os **doc writers/reviewers** (`agents\docs\`) e rode o **swarm
+  de documentação nativo** sobre `<poc>\docs`, com portão ≥ A.
 
 ## Regras
 - Nunca dilua a régua nem pule a validação para "fechar" a POC. A barra é A.
@@ -689,15 +795,15 @@ sustentam as decisões.
 ## Checklist antes de entregar
 
 - [ ] Pasta `<OUTPUT_ROOT>\<YYYY-MM-DD>-POC-<XX>\` criada com a árvore completa
-      (`analysis`, `agents/builders`, `agents/reviewers`, `build`, `reports`, `sources`,
-      `docs`, `output`).
+      (`analysis`, `agents/builders`, `agents/reviewers`, `agents/docs`, `build`,
+      `reports`, `sources`, `docs`, `output`).
 - [ ] `brief.md` com perguntas respondidas, **tenant/subscription/região** e tópicos de
       importância listados.
 - [ ] `analysis\architecture-decision.md` (ADR) e `analysis\team-plan.md` produzidos pelo
       Analista, com ≥ 5 fontes verificadas e verificação do estado real do Azure.
-- [ ] Builders + revisores (conforme o `team-plan`) + coordenador + rubber duck, todos
-      como `.md` declarativos, cada um com modelo escolhido e justificativa em
-      `reports\agent-models.md`.
+- [ ] Builders + revisores (conforme o `team-plan`) + coordenador + rubber duck +
+      **doc writers/reviewers**, todos como `.md` declarativos, cada um com modelo
+      escolhido e justificativa em `reports\agent-models.md`.
 - [ ] Cada ciclo com `build`, `validation`, `review` e `rubberduck` registrados em
       `reports\`.
 - [ ] **Todos** os tópicos com nota final **≥ A** e **validação limpa**
@@ -710,8 +816,8 @@ sustentam as decisões.
       executado se o usuário pediu).
 - [ ] Cada agente cumpriu **≥ 5 fontes online verificadas (HTTP 200)** em
       `sources\sources-index.md`.
-- [ ] Documentação gerada pelo **`document-swarm`** em `docs\` (portão ≥ A dele) — ou
-      fallback avisado se o document-swarm não estava instalado.
+- [ ] Documentação gerada pelo **swarm de documentação nativo** em `docs\` (doc writers +
+      doc reviewers + rubber duck, **portão ≥ A**), com ≥ 5 fontes verificadas por writer.
 - [ ] `reports\final-report.md` escrito (matriz de notas + recursos + custo + caminho da doc).
 
 ## Resposta ao usuário
@@ -722,7 +828,7 @@ Depois de concluir, responda com:
 POC concluída: `<OUTPUT_ROOT>\<poc_id>\`
 
 Artefatos: `build\` (IaC/scripts/app)   |   Manifesto: `output\resource-manifest.md`
-Documentação: `docs\` (via document-swarm)
+Documentação: `docs\` (swarm de documentação nativo)
 Modelos dos agentes: `reports\agent-models.md`
 Ciclos: <N>   |   Tópicos avaliados: <k> (todos ≥ A)
 Deploy: <RG> em <região> — smoke test <OK/NA>   |   Teardown: <executado/pronto>

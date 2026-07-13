@@ -2,7 +2,7 @@
 
 Exemplo **ilustrativo** ponta a ponta da skill `poc-swarm`: um pedido de **prova de
 conceito** dispara o enxame que **projeta, constrói, valida, revisa e provisiona** a POC
-no Azure, e depois **documenta** via `document-swarm` — tudo com **portão ≥ A**.
+no Azure, e depois **documenta** com um **swarm de documentação nativo** — tudo com **portão ≥ A**.
 
 > ⚠️ **Ilustrativo.** Os números (notas, nº de fontes, ciclos, recursos) servem para
 > mostrar o fluxo — não são a transcrição de uma execução específica.
@@ -83,11 +83,11 @@ no Azure, e depois **documenta** via `document-swarm` — tudo com **portão ≥
      respondeu 200 e a API **leu o segredo do Key Vault via MI** (sem chave). Registrado em
      `reports\deploy.md` e `output\resource-manifest.md`.
 
-7. **Fase 5 — Documentação (via `document-swarm`).** A skill montou `docs\brief-seed.md`
-   (guia técnico reproduzível: visão geral, arquitetura, ADR, passo-a-passo de deploy,
-   segurança, rede, custo, teardown, referências + diagramas Mermaid) e **invocou a
-   `document-swarm`** com **destino explícito `2026-07-06-POC-01\docs`**. A doc final passou
-   pelo **portão ≥ A** do document-swarm.
+7. **Fase 5 — Documentação (swarm de documentação nativo).** A skill materializou os
+   **doc writers/reviewers** em `agents\docs\` e rodou o swarm de documentação sobre
+   `2026-07-06-POC-01\docs` (guia técnico reproduzível: visão geral, arquitetura, ADR,
+   passo-a-passo de deploy, segurança, rede, custo, teardown, referências + diagramas
+   Mermaid). A doc final passou pelo **portão ≥ A**.
 
 8. **Fase 6 — Entrega + teardown.** Como o usuário pediu teardown, a skill rodou
    `az group delete -n rg-poc-privateapi-dev` e registrou. `final-report.md` escrito com a
@@ -108,16 +108,17 @@ documentada em **2 ciclos**, com **teardown** executado.
 ├─ agents\
 │  ├─ coordinator.md · rubber-duck.md
 │  ├─ builders\builder-01-infra.md · builder-02-rede.md · builder-03-identidade.md
-│  └─ reviewers\reviewer-01-seguranca.md … reviewer-04-iac-waf.md
+│  ├─ reviewers\reviewer-01-seguranca.md … reviewer-04-iac-waf.md
+│  └─ docs\doc-writer-01-visao.md · doc-writer-02-deploy.md · doc-reviewer-01-tecnica.md
 ├─ build\
 │  ├─ iac\main.bicep · modules\ · main.parameters.json
 │  └─ scripts\deploy.ps1 · teardown.ps1
 ├─ reports\
 │  ├─ agent-models.md · preflight.md
 │  ├─ cycle-01..02-{build,validation,review,rubberduck}.md
-│  ├─ deploy.md · final-report.md
+│  ├─ deploy.md · doc-cycle-01-review.md · final-report.md
 ├─ sources\sources-index.md
-├─ docs\               ← documentação gerada pelo document-swarm (portão ≥ A dele)
+├─ docs\               ← documentação gerada pelo swarm de documentação nativo (portão ≥ A)
 └─ output\resource-manifest.md
 ```
 
@@ -133,5 +134,5 @@ documentada em **2 ciclos**, com **teardown** executado.
   contradiziam o ADR — antes de qualquer deploy.
 - **Deploy só depois do portão ≥ A**, com **preflight** confirmando o contexto certo, **RG
   dedicado + tags** e **smoke test** provando que a coisa realmente funciona.
-- **Documentação não é à mão:** a POC Swarm **reutiliza o document-swarm** para entregar a
-  doc final com o mesmo rigor de qualidade.
+- **Documentação com o mesmo rigor:** a POC Swarm roda um **swarm de documentação nativo**
+  (doc writers + doc reviewers + rubber duck) para entregar a doc final com portão ≥ A.

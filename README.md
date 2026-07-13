@@ -8,12 +8,12 @@
 Skill do **Copilot CLI** que monta um **enxame de agentes declarativos** para
 **projetar, construir, validar, revisar e provisionar uma Prova de Conceito (POC)
 no Azure** — no tenant e subscription que você indicar — e, ao final, **gerar a
-documentação** chamando a skill [`document-swarm`](https://github.com/EdneiMonteiro/document-swarm).
+documentação** com um **swarm de documentação nativo**.
 
-É irmã da `document-swarm` e reutiliza o mesmo motor: agentes `.md` autocontidos,
+Reutiliza um motor de swarm de ponta a ponta: agentes `.md` autocontidos,
 **modelo explícito por agente**, human-in-the-loop no início, **≥ 5 fontes oficiais
 verificadas (HTTP 200)**, régua **D- … A+ com portão ≥ A**, **rubber duck** transversal
-e rastreabilidade total em `reports/`. O que muda é o domínio: **engenharia de POC em
+e rastreabilidade total em `reports/`. O domínio é **engenharia de POC em
 Azure**, com **validação técnica real** e **deploy** dos artefatos.
 
 > Skill (fonte da verdade): `SKILL.md` (na raiz deste repo)
@@ -55,8 +55,9 @@ Copilot CLI reconhecer a skill (confirme com `/skills` após reiniciar).
 > security → For developers) ou terminal elevado; sem isso, o instalador cai
 > automaticamente para *junction*.
 
-> **Recomendado:** instale também a `document-swarm` — a POC Swarm a invoca para produzir
-> a documentação final (Fase 5). Sem ela, a skill gera apenas um `docs/` mínimo e avisa.
+> **Documentação:** a POC Swarm gera a documentação final (Fase 5) com um **swarm de
+> documentação nativo** (doc writers + doc reviewers + rubber duck, portão ≥ A) — sem
+> dependências externas.
 
 ### Toolchain de validação & deploy
 
@@ -109,9 +110,9 @@ Ela decompõe o trabalho e roda **dois swarms encadeados** dentro de uma **pasta
 
 ### 2) Swarm de Documentação
 
-6. A skill **invoca a `document-swarm`** com um **brief pré-preenchido** (arquitetura,
-   decisões, recursos provisionados, diagramas) e **destino explícito `docs/`**, gerando
-   a documentação final da POC — que passa pelo **portão ≥ A** do próprio document-swarm.
+6. A skill roda um **swarm de documentação nativo** (doc writers + doc reviewers +
+   rubber duck) sobre `docs/`, a partir dos artefatos da POC (arquitetura, decisões,
+   recursos provisionados, diagramas) — a documentação final passa pelo **portão ≥ A**.
 
 A premissa: **qualidade vem de especialização + validação técnica real + revisão
 iterativa com régua dura + evidência verificável + deploy comprovado por smoke test.**
@@ -127,8 +128,8 @@ Use frases como:
 - "quero um POC de `<serviço/arquitetura>` com IaC no meu tenant"
 - "prove o conceito de `<X>` no Azure e documente"
 
-**Não dispara** para pedidos que são só documento/apresentação (use `document-swarm`) nem
-para pedidos triviais. Também há **modo evolução** para expandir uma POC já entregue.
+**Não dispara** para pedidos que são só documento/apresentação (sem construir nada no
+Azure) nem para pedidos triviais. Também há **modo evolução** para expandir uma POC já entregue.
 
 ---
 

@@ -61,14 +61,6 @@ Write-Host 'Reinicie o Copilot CLI e confirme com /skills.'
 Write-Host ('Saída das POCs (padrão): ' + (Join-Path $RepoRoot 'pocs'))
 Write-Host 'Para mudar a saída, defina $env:POCSWARM_ROOT ou indique o destino no pedido.'
 
-# Recomenda a document-swarm (usada na Fase 5 para a documentação final).
-$DocSwarm = Join-Path $SkillsDir 'document-swarm'
-if (Test-Path -LiteralPath $DocSwarm) {
-  Write-Host '   ✅ document-swarm detectada (usada na Fase 5 p/ documentação).'
-} else {
-  Write-Host '   ⚠️  document-swarm NÃO detectada — instale-a para a documentação final da POC.'
-}
-
 # ── Toolchain de validação/deploy: opcional ────────────────────────────────────
 # O motor de agentes funciona sem nada disto. Validação e deploy precisam de
 # az CLI + Bicep, Terraform (se usado), e linters (tflint/checkov/PSRule).
