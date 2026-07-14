@@ -133,6 +133,23 @@ A premissa: **qualidade vem de spec com critérios testáveis + especialização
 técnica real + revisão iterativa com régua dura + evidência verificável + deploy
 comprovado por smoke test.**
 
+### Diagrama do fluxo
+
+Fluxo atual (spec-driven, doc em dois trilhos):
+
+![POC Swarm — fluxo (SDD + doc em dois trilhos)](./docs/diagrams/fluxo-proposto.svg)
+
+<details>
+<summary>Versão anterior (pré-SDD), para comparação</summary>
+
+![POC Swarm — fluxo anterior](./docs/diagrams/fluxo-atual.svg)
+
+</details>
+
+> Os `.svg` são exportados a partir das fontes editáveis em
+> [`docs/diagrams/`](./docs/diagrams) (`*.excalidraw`, abríveis em
+> [excalidraw.com](https://excalidraw.com)).
+
 ---
 
 ## Quando dispara (triggers)

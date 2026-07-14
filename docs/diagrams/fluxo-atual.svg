@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40.0 -110.0 920.0 1774.0" width="920" height="1774" font-family="Helvetica, Arial, sans-serif">
+<rect x="-40.0" y="-110.0" width="920.0" height="1774.0" fill="#ffffff"/>
+<rect x="240.0" y="636.0" width="600.0" height="614.0" rx="12" fill="none" fill-opacity="1" stroke="#868e96" stroke-width="1" stroke-dasharray="8 6"/>
+<rect x="300.0" y="20.0" width="340.0" height="66.0" rx="12" fill="#e9ecef" fill-opacity="0.25" stroke="#495057" stroke-width="2"/>
+<rect x="300.0" y="132.0" width="340.0" height="86.0" rx="12" fill="#a5d8ff" fill-opacity="0.25" stroke="#1971c2" stroke-width="2"/>
+<rect x="300.0" y="264.0" width="340.0" height="72.0" rx="12" fill="#a5d8ff" fill-opacity="0.25" stroke="#1971c2" stroke-width="2"/>
+<rect x="300.0" y="382.0" width="340.0" height="86.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<rect x="300.0" y="514.0" width="340.0" height="86.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<rect x="300.0" y="646.0" width="340.0" height="72.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<rect x="300.0" y="764.0" width="340.0" height="86.0" rx="12" fill="#a5d8ff" fill-opacity="0.25" stroke="#1971c2" stroke-width="2"/>
+<rect x="300.0" y="896.0" width="340.0" height="72.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<rect x="300.0" y="1014.0" width="340.0" height="72.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<polygon points="470.0,1132.0 620.0,1187.0 470.0,1242.0 320.0,1187.0" fill="#ffec99" fill-opacity="0.25" stroke="#f08c00" stroke-width="2"/>
+<rect x="300.0" y="1288.0" width="340.0" height="86.0" rx="12" fill="#a5d8ff" fill-opacity="0.25" stroke="#1971c2" stroke-width="2"/>
+<rect x="300.0" y="1420.0" width="340.0" height="86.0" rx="12" fill="#d0bfff" fill-opacity="0.25" stroke="#6741d9" stroke-width="2"/>
+<rect x="300.0" y="1552.0" width="340.0" height="72.0" rx="12" fill="#a5d8ff" fill-opacity="0.25" stroke="#1971c2" stroke-width="2"/>
+<rect x="0.0" y="1132.0" width="220.0" height="80.0" rx="12" fill="#ffc9c9" fill-opacity="0.25" stroke="#e03131" stroke-width="2"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 86.0 L 470.0 132.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 218.0 L 470.0 264.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 336.0 L 470.0 382.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 468.0 L 470.0 514.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 600.0 L 470.0 646.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 718.0 L 470.0 764.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 850.0 L 470.0 896.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 968.0 L 470.0 1014.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 1086.0 L 470.0 1132.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah4753" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#2f9e44"/></marker></defs>
+<path d="M 470.0 1242.0 L 470.0 1288.0" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#ah4753)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 1374.0 L 470.0 1420.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah88727" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#1e1e1e"/></marker></defs>
+<path d="M 470.0 1506.0 L 470.0 1552.0" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah88727)"/>
+<defs><marker id="ah28343" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#e03131"/></marker></defs>
+<path d="M 620.0 1187.0 L 750.0 1187.0 L 750.0 682.0 L 640.0 682.0" fill="none" stroke="#e03131" stroke-width="2" marker-end="url(#ah28343)"/>
+<defs><marker id="ah28343" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#e03131"/></marker></defs>
+<path d="M 320.0 1187.0 L 220.0 1187.0" fill="none" stroke="#e03131" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#ah28343)"/>
+<text x="300.0" y="-44.8" font-size="28" fill="#1e1e1e" text-anchor="start" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="300.0" dy="0.0">POC Swarm — Fluxo Atual</tspan>
+</text>
+<text x="470.0" y="57.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Usuário: &quot;monte uma POC de X no Azure&quot;</tspan>
+</text>
+<text x="470.0" y="159.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 0 — Perguntas de enquadramento</tspan>
+<tspan x="470.0" dy="20.0">(human-in-the-loop: tenant/sub/região,</tspan>
+<tspan x="470.0" dy="20.0">custo, IaC, rede, teardown, ciclos)</tspan>
+</text>
+<text x="470.0" y="294.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 1 — Setup da pasta</tspan>
+<tspan x="470.0" dy="20.0">poc_id + árvore + brief.md (tópicos ≥ A)</tspan>
+</text>
+<text x="470.0" y="409.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 2 — Analista</tspan>
+<tspan x="470.0" dy="20.0">ADR (arquitetura-decision.md) + team-plan.md</tspan>
+<tspan x="470.0" dy="20.0">≥ 5 fontes HTTP 200 + estado real do Azure</tspan>
+</text>
+<text x="470.0" y="541.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Materializa agentes declarativos (.md)</tspan>
+<tspan x="470.0" dy="20.0">builders + revisores + coordenador + rubber duck</tspan>
+<tspan x="470.0" dy="20.0">modelo explícito por agente</tspan>
+</text>
+<text x="470.0" y="676.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Builders em paralelo</tspan>
+<tspan x="470.0" dy="20.0">(IaC / rede / identidade / app)</tspan>
+</text>
+<text x="470.0" y="791.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Validação técnica real</tspan>
+<tspan x="470.0" dy="20.0">bicep build · terraform validate+plan</tspan>
+<tspan x="470.0" dy="20.0">tflint · checkov · PSRule · what-if</tspan>
+</text>
+<text x="470.0" y="926.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Revisores técnicos</tspan>
+<tspan x="470.0" dy="20.0">nota D- … A+ por tópico + sugestão acionável</tspan>
+</text>
+<text x="470.0" y="1044.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Rubber duck transversal</tspan>
+<tspan x="470.0" dy="20.0">audita todos os agentes do ciclo</tspan>
+</text>
+<text x="470.0" y="1171.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Portão:</tspan>
+<tspan x="470.0" dy="20.0">todos os tópicos ≥ A?</tspan>
+<tspan x="470.0" dy="20.0">(A- não passa)</tspan>
+</text>
+<text x="250.0" y="654.6" font-size="14" fill="#868e96" text-anchor="start" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="250.0" dy="0.0">Fase 3 — Loop de construção (máx 5 ciclos)</tspan>
+</text>
+<text x="470.0" y="1315.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 4 — Deploy</tspan>
+<tspan x="470.0" dy="20.0">preflight read-only (tenant/sub batem?)</tspan>
+<tspan x="470.0" dy="20.0">→ deploy em RG dedicado + tags → smoke test</tspan>
+</text>
+<text x="470.0" y="1447.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 5 — Swarm de documentação nativo</tspan>
+<tspan x="470.0" dy="20.0">doc writers → doc reviewers → rubber duck</tspan>
+<tspan x="470.0" dy="20.0">loop com portão ≥ A sobre docs/</tspan>
+</text>
+<text x="470.0" y="1582.4" font-size="16" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="470.0" dy="0.0">Fase 6 — Entrega</tspan>
+<tspan x="470.0" dy="20.0">final-report.md + manifest + teardown pronto</tspan>
+</text>
+<text x="478.0" y="1245.7" font-size="13" fill="#2f9e44" text-anchor="start" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="478.0" dy="0.0">  sim ✓</tspan>
+</text>
+<text x="638.0" y="1204.7" font-size="13" fill="#e03131" text-anchor="start" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="638.0" dy="0.0">não: ciclo N+1</tspan>
+<tspan x="638.0" dy="16.2">(só tópicos &lt; A)</tspan>
+</text>
+<text x="110.0" y="1158.3" font-size="14" fill="#1e1e1e" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" style="white-space:pre">
+<tspan x="110.0" dy="0.0">Trava: max_cycles</tspan>
+<tspan x="110.0" dy="17.5">atingido → PARA e</tspan>
+<tspan x="110.0" dy="17.5">escala ao usuário</tspan>
+</text>
+</svg>
