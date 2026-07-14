@@ -135,20 +135,11 @@ comprovado por smoke test.**
 
 ### Diagrama do fluxo
 
-Fluxo atual (spec-driven, doc em dois trilhos):
+![POC Swarm — fluxo (SDD + documentação em dois trilhos)](./docs/diagrams/fluxo.svg)
 
-![POC Swarm — fluxo (SDD + doc em dois trilhos)](./docs/diagrams/fluxo-proposto.svg)
-
-<details>
-<summary>Versão anterior (pré-SDD), para comparação</summary>
-
-![POC Swarm — fluxo anterior](./docs/diagrams/fluxo-atual.svg)
-
-</details>
-
-> Os `.svg` são exportados a partir das fontes editáveis em
-> [`docs/diagrams/`](./docs/diagrams) (`*.excalidraw`, abríveis em
-> [excalidraw.com](https://excalidraw.com)).
+> O `.svg` é exportado a partir da fonte editável
+> [`docs/diagrams/fluxo.excalidraw`](./docs/diagrams/fluxo.excalidraw), que pode ser
+> aberta em [excalidraw.com](https://excalidraw.com).
 
 ---
 
@@ -190,7 +181,7 @@ Distribuído sob [CC BY 4.0](./LICENSE). Uso por sua conta e risco — veja
 [DISCLAIMER.md](./DISCLAIMER.md) (atenção especial ao provisionamento de recursos reais) e
 [SUPPORT.md](./SUPPORT.md). Se usar este material, por favor cite (ver `CITATION.cff`).
 
-## 🤝 Contributing
+## 🤝 Contribuindo
 
-Issue and pull request creation is restricted to collaborators. See
-[CONTRIBUTING.md](CONTRIBUTING.md) for details.
+A criação de issues e pull requests neste repositório é restrita a colaboradores.
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) para detalhes.
