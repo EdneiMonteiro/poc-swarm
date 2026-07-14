@@ -116,9 +116,9 @@ swarms lado a lado** (`build/` e `docs/`):
 │  ├─ builders\
 │  │  ├─ builder-01-<slug>.md   # ex.: infra/IaC, rede, identidade&segurança, app/carga
 │  │  └─ builder-02-<slug>.md
-│  └─ reviewers\
-│     ├─ reviewer-01-<slug>.md  # ex.: segurança/identidade, rede, qualidade IaC, custo, deployability, WAF
-│     └─ reviewer-02-<slug>.md
+│  ├─ reviewers\
+│  │  ├─ reviewer-01-<slug>.md  # ex.: segurança/identidade, rede, qualidade IaC, custo, deployability, WAF
+│  │  └─ reviewer-02-<slug>.md
 │  └─ docs\
 │     ├─ doc-writer-01-<slug>.md  # autores da documentação (ex.: visão geral, deploy, segurança/rede)
 │     └─ doc-reviewer-01-<slug>.md # revisores de documentação (clareza, correção técnica, completude)
