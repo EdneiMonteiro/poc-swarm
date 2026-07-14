@@ -1,15 +1,16 @@
-# Contributing
+# Contribuindo
 
 ## Issues & Pull Requests
 
-To reduce spam and keep this project maintainable, **creating issues and pull
-requests in this repository is restricted to collaborators with `write` access**.
+Para reduzir spam e manter este projeto sustentável, **a criação de issues e pull
+requests neste repositório é restrita a colaboradores com acesso de escrita
+(`write`)**.
 
-If you are **not** a collaborator:
+Se você **não** for colaborador:
 
-- 💬 Open a **Discussion** (if enabled) to propose an idea or report a problem.
-- 📧 Contact the maintainer to request access or discuss a contribution.
+- 💬 Abra uma **Discussion** (se habilitada) para propor uma ideia ou relatar um problema.
+- 📧 Entre em contato com o mantenedor para solicitar acesso ou discutir uma contribuição.
 
-The default branch is also protected: deletion and force-pushes are disabled.
+A branch padrão também é protegida: exclusão e force-push estão desabilitados.
 
-Thanks for understanding! 🙏
+Obrigado pela compreensão! 🙏
