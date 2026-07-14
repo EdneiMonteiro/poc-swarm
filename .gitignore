@@ -13,6 +13,8 @@
 # Ruído de validação de diagramas Mermaid
 *.svg
 .mermaid-validation/
+# Exceção: diagramas de documentação versionados (exportados de *.excalidraw)
+!docs/diagrams/*.svg
 
 # Locais
 .env
