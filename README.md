@@ -10,11 +10,12 @@ Skill do **Copilot CLI** que monta um **enxame de agentes declarativos** para
 no Azure** — no tenant e subscription que você indicar — e, ao final, **gerar a
 documentação** com um **swarm de documentação nativo**.
 
-Reutiliza um motor de swarm de ponta a ponta: agentes `.md` autocontidos,
-**modelo explícito por agente**, human-in-the-loop no início, **≥ 5 fontes oficiais
-verificadas (HTTP 200)**, régua **D- … A+ com portão ≥ A**, **rubber duck** transversal
-e rastreabilidade total em `reports/`. O domínio é **engenharia de POC em
-Azure**, com **validação técnica real** e **deploy** dos artefatos.
+Reutiliza um motor de swarm de ponta a ponta: **spec com critérios de aceitação
+testáveis (SDD — spec-driven development)**, agentes `.md` autocontidos, **modelo
+explícito por agente**, human-in-the-loop no início, **≥ 5 fontes oficiais verificadas
+(HTTP 200)**, régua **D- … A+ com portão ≥ A**, **rubber duck** transversal e
+rastreabilidade total em `reports/`. O domínio é **engenharia de POC em Azure**, com
+**validação técnica real** e **deploy** dos artefatos.
 
 > Skill (fonte da verdade): `SKILL.md` (na raiz deste repo)
 > Saída das POCs: por padrão `<clone>\pocs\<YYYY-MM-DD>-POC-<XX>\`
@@ -56,8 +57,8 @@ Copilot CLI reconhecer a skill (confirme com `/skills` após reiniciar).
 > automaticamente para *junction*.
 
 > **Documentação:** a POC Swarm gera a documentação final (Fase 5) com um **swarm de
-> documentação nativo** (doc writers + doc reviewers + rubber duck, portão ≥ A) — sem
-> dependências externas.
+> documentação nativo** em **dois trilhos** — o estático roda **em paralelo ao deploy**
+> — (doc writers + doc reviewers + rubber duck, portão ≥ A), sem dependências externas.
 
 ### Toolchain de validação & deploy
 
@@ -90,32 +91,47 @@ local de cada execução, não parte da distribuição da skill.
 
 Quando você pede "monte uma POC de X no Azure", a skill não escreve nem deploya às cegas.
 Ela decompõe o trabalho e roda **dois swarms encadeados** dentro de uma **pasta única**
-`<YYYY-MM-DD>-POC-<XX>`:
+`<YYYY-MM-DD>-POC-<XX>`, dirigidos por uma **spec (SDD — spec-driven development)**:
 
 ### 1) Swarm de Construção
 
 1. **Pergunta** o essencial (objetivo, **tenant/subscription/região**, restrições,
-   preferências de IaC/rede/auth, teardown, nº de ciclos).
-2. Um **Analista** enquadra a POC e escreve o **ADR** (`architecture-decision.md`):
-   recursos, opções de implementação, **rede pública vs privada**, **IaC** (Bicep /
-   Terraform / az CLI), **chaves vs Managed Identity**, região, custo, riscos — tudo
-   verificado contra a **documentação oficial** e o **estado real** do Azure.
-3. O Analista decide **quantos agentes e quais perfis** o enxame precisa (`team-plan.md`)
-   e a skill **materializa** builders, revisores técnicos, coordenador e rubber duck.
-4. Por ciclo: **builders** desenvolvem os artefatos → **validação real**
-   (`bicep build`/`terraform validate`+`plan`, `tflint`/`checkov`/`PSRule`, `what-if`) →
-   **peer review técnico** (nota D-…A+ por tópico) → **rubber duck** → **portão ≥ A**.
-5. Fechado o portão: **preflight read-only** (confirma tenant/subscription ativos) →
-   **deploy** no **RG dedicado** com **tags** → **smoke test** → **teardown** pronto.
+   preferências de IaC/rede/auth, limite de custo, teardown, nº de ciclos), resolvendo
+   as ambiguidades que travariam a spec.
+2. **Preflight antecipado (fail fast):** valida tenant/subscription ativos, quota,
+   resource providers e toolchain **antes** de gastar qualquer ciclo de agente.
+3. Um **Analista** escreve a **spec** (`spec.md`): REQs numerados com **critérios de
+   aceitação testáveis** ("dado/quando/então") — o contrato que dirige construção,
+   revisão, smoke test e documentação (aceita specs do [GitHub Spec Kit](https://github.com/github/spec-kit)
+   como entrada). Depois escreve o **ADR** (`architecture-decision.md`) respondendo à
+   spec: recursos, **rede pública vs privada**, **IaC** (Bicep / Terraform / az CLI),
+   **chaves vs Managed Identity**, região, custo, riscos — tudo verificado contra a
+   **documentação oficial** e o **estado real** do Azure.
+4. O Analista decide **quantos agentes e quais perfis** o enxame precisa
+   (`team-plan.md`), **mapeados aos REQs da spec**, e a skill **materializa** builders,
+   revisores técnicos, coordenador e rubber duck.
+5. Por ciclo: **builders** desenvolvem os artefatos (prontos para validar + doc stubs) →
+   **validação real** (`bicep build`/`terraform validate`+`plan`,
+   `tflint`/`checkov`/`PSRule`, `what-if`) → **peer review técnico** (nota D-…A+ **por
+   REQ** e por tópico, com rastreabilidade REQ → artefato → validação) → **rubber
+   duck** → **portão ≥ A**. O progresso fica em `state.json` — execuções interrompidas
+   **retomam do checkpoint**.
+6. Fechado o portão: **re-check do preflight** → **deploy** no **RG dedicado** com
+   **tags** → **smoke test derivado dos critérios de aceitação da spec** → **budget
+   alert** com o limite informado + tag de expiração → **teardown** pronto.
 
-### 2) Swarm de Documentação
+### 2) Swarm de Documentação (dois trilhos)
 
-6. A skill roda um **swarm de documentação nativo** (doc writers + doc reviewers +
-   rubber duck) sobre `docs/`, a partir dos artefatos da POC (arquitetura, decisões,
-   recursos provisionados, diagramas) — a documentação final passa pelo **portão ≥ A**.
+7. A doc de **intenção** (spec + ADR) já nasceu antes da construção. A doc de
+   **produto** roda em dois trilhos: o **estático** (arquitetura, segurança & rede,
+   custo) parte de spec/ADR/artefatos **em paralelo ao deploy**; o **dinâmico**
+   documenta a realidade provisionada (deploy, manifest, smoke por REQ) após a Fase 4.
+   Doc writers + doc reviewers + rubber duck — a documentação final passa pelo
+   **portão ≥ A**.
 
-A premissa: **qualidade vem de especialização + validação técnica real + revisão
-iterativa com régua dura + evidência verificável + deploy comprovado por smoke test.**
+A premissa: **qualidade vem de spec com critérios testáveis + especialização + validação
+técnica real + revisão iterativa com régua dura + evidência verificável + deploy
+comprovado por smoke test.**
 
 ---
 
@@ -135,10 +151,14 @@ Azure) nem para pedidos triviais. Também há **modo evolução** para expandir 
 
 ## Segurança
 
-- **Preflight read-only** confirma que o **tenant/subscription ativos** batem com o pedido
-  **antes** de qualquer `apply`/`create` — se não baterem, a skill **para e alerta**.
-- **RG dedicado** por POC (`rg-poc-<slug>-<env>`), **tags** padronizadas e **teardown**
-  sempre gerado.
+- **Preflight read-only em dois momentos** — logo após as perguntas (fail fast, antes
+  de gastar ciclos de agente) e de novo **antes** de qualquer `apply`/`create` —
+  confirma que o **tenant/subscription ativos** batem com o pedido; se não baterem, a
+  skill **para e alerta**.
+- **RG dedicado** por POC (`rg-poc-<slug>-<env>`), **tags** padronizadas (incluindo
+  `expiration-date`) e **teardown** sempre gerado.
+- **Guardrail de custo:** o limite de orçamento informado vira **budget alert** no RG
+  logo após o deploy.
 - Prefere **Managed Identity**; segredos só via **Key Vault**, nunca versionados.
 - **Sem dados sensíveis no repositório:** IDs reais de tenant/subscription e nomes de
   cliente/projeto interno **nunca** entram em arquivos versionados — use placeholders. O
